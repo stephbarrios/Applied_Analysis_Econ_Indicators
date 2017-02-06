@@ -1,0 +1,71 @@
+cd "C:\Users\sbarrios710\Downloads"
+
+import excel L4_inflation.xlsx, sheet("Northeast urban") firstrow clear
+
+rename Annual cpi_NE
+label var cpi_NE "CPI Northeast"
+**
+drop (Jan-Dec)
+**
+gen inflation_NE = (cpi_NE - cpi_NE[_n-1])/cpi_NE[_n-1]*100
+label var inflation_NE "Inflation Northeast"
+**
+line inflation_NE year, xlabel(1967(10)2015) /// 
+title("Inflation Rate Annually") subtitle("Northeast Urban") yline(0)
+**
+keep year cpi_NE inflation_NE
+sort year
+save cpi.dta, replace
+************************************
+import excel L4_inflation.xlsx, sheet("Midwest urban") firstrow clear
+
+rename Annual cpi_MW
+label var cpi_MW "CPI Midwest"
+**
+drop (Jan-Dec)
+**
+gen inflation_MW = (cpi_MW - cpi_MW[_n-1])/cpi_MW[_n-1]*100
+label var inflation_MW "Inflation Midwest"
+****MERGING TWO***
+sort year
+merge 1:1 year using cpi.dta
+
+sort year
+drop _merge
+save cpi.dta, replace
+***
+import excel L4_inflation.xlsx, sheet("South urban") firstrow clear
+
+rename Annual cpi_S
+label var cpi_S "CPI South"
+**
+drop (Jan-Dec)
+**
+gen inflation_S = (cpi_S - cpi_S[_n-1])/cpi_S[_n-1]*100
+label var inflation_S "Inflation South"
+**
+sort year
+merge 1:1 year using cpi.dta
+
+sort year
+drop _merge
+save cpi.dta, replace
+**
+import excel L4_inflation.xlsx, sheet("West urban") firstrow clear
+
+rename Annual cpi_W
+label var cpi_W "CPI West"
+**
+drop (Jan-Dec)
+**
+gen inflation_W = (cpi_W - cpi_W[_n-1])/cpi_W[_n-1]*100
+label var inflation_W "Inflation West"
+**
+sort year
+merge 1:1 year using cpi.dta
+
+sort year
+drop _merge
+save cpi.dta, replace
+*******PUTTING THEM TOGETHER******
+line inflation_NE year || line inflation_MW year || line inflation_S year || line inflation_W year, title("Annual Inflation - Urban Areas")
