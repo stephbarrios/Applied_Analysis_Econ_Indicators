@@ -10,3 +10,6 @@ word doc with an explanation/analysis after some quick research.
 ## Labor Force Participation Rate in 3 States
 
 ![Alt text](/LFParticipation_Analysis/LFPRate.png?raw=true)
+
+## Inflation - Urban Areas 
+![Alt text](/Inflation_UrbanAreas_Analysis/InflationAnalysis.png?raw=true)
